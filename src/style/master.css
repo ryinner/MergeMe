@@ -53,5 +53,4 @@ h1 {
 .cube {
     width: var(--cube-width);
     height: var(--cube-heigth);
-    background: #000;
 }
