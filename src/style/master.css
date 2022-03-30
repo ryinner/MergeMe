@@ -51,6 +51,7 @@ h1 {
 }
 
 .cube {
+    cursor: pointer;
     width: var(--cube-width);
     height: var(--cube-heigth);
 }

@@ -4,11 +4,11 @@ export class BaseCube {
     }
 
     render() {
-        let cube = document.createElement('div')
-        cube.classList.add('cube')
-        cube.style.background = this.randomColor()
+        this.cube = document.createElement('div')
+        this.cube.classList.add('cube')
+        this.cube.style.background = this.randomColor()
 
-        this.app.append(cube)
+        this.app.append(this.cube)
     }
 
     randomColor() {
@@ -19,4 +19,11 @@ export class BaseCube {
 
         return colors[Math.floor(Math.random() * colors.length)]
     }
+
+    // swipe() {
+    //     this.cube.addEventListener('mousemove', (event) => {
+    //         console.log(event.movementX)
+    //         console.log(event.movementY)
+    //     })
+    // }
 }
