@@ -1,12 +1,7 @@
-import { BaseCube } from "./cubes/BaseCube.js"
-
-const APP = document.querySelector('#app')
-
-const cube = new BaseCube(APP)
+import { Game } from "./classes/Game.js";
 
 // 144 куба максимум
-let i = 0
-while (i < 144) {
-    cube.render()
-    i++
-}
+
+const game = new Game;
+
+game.render();
