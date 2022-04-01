@@ -14,8 +14,8 @@ export class Game {
     render () {
         for (let x = 0; x < this.GameBoard.length; x++) {
             for(let y = 0; y < this.GameBoard[x].length; y++) {
+                // @todo GeneratorClasses
                 this.GameBoard[x][y] = new BaseCube(x+1, y+1);
-                // this.GameBoard[x][y].render();
             }
         }
 
@@ -24,17 +24,17 @@ export class Game {
 
     swipe() {
         let touch = {};
-        app.addEventListener('touchstart', (event) => {
+        app.addEventListener('mousedown', (event) => {
             touch = { 
-                x: event.changedTouches[0].clientX,
-                y: event.changedTouches[0].clientY,
+                x: event.clientX,
+                y: event.clientY,
             };
         });
     
-        app.addEventListener('touchmove', (event) => {
+        app.addEventListener('mouseup', (event) => {
             let touchMove = { 
-                x: event.changedTouches[0].clientX,
-                y: event.changedTouches[0].clientY,
+                x: event.clientX,
+                y: event.clientY,
             };
     
             const calcX = touch.x - touchMove.x;
