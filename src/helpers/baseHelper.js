@@ -10,3 +10,11 @@ export function duoRandom(min, max) {
 
     return rand
 }
+
+export function sort(array ,isMinus) {
+    if (isMinus == true) {
+        array.sort((a, b) => { return b-a })
+    } else {
+        array.sort((a, b) => { return a-b })
+    }
+}
