@@ -42,6 +42,7 @@ h1 {
 #app {
     margin-top: 12px;
     max-width: 1200px;
+    user-select: none;  
     border: 4px solid var(--second-color);
     min-width: calc(var(--max-cubes-columns) * var(--cube-width));
     min-height: calc(var(--max-cubes-rows) * var(--cube-heigth));

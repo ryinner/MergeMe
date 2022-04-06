@@ -1,8 +1,8 @@
 export class BaseCube {
-    constructor(x, y) {
+    constructor(x, y, value) {
         this.x = x
         this.y = y
-        this.value = 0
+        this.value = value
     }
 
     app = document.querySelector('#app');
@@ -12,10 +12,11 @@ export class BaseCube {
         this.cube.classList.add('cube');
 
         this.app.append(this.cube);
+        this.changeCube();
     }
 
     changeCube() {
-        this.cube.style.gridArea = this.x + ' / ' + this.y
+        this.cube.classList = `cube cube-${this.x}-${this.y}`
         this.cube.style.background = this.tookColor();
         this.cube.innerHTML = this.value;
     }
@@ -32,8 +33,17 @@ export class BaseCube {
 
     set score(value) {
         this.value = value;
-        this.render();
         this.changeCube();
+    }
+
+    set coords(coords) {
+        this.x = coords[0];
+        this.y = coords[1];
+        this.changeCube();
+    }
+
+    get coords() {
+        return {x: this.x, y: this.y};
     }
 
     get score() {

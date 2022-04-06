@@ -2,24 +2,39 @@ import { BaseCube } from "./BaseCube.js";
 import { random, duoRandom } from "../helpers/baseHelper.js";
 export class Game {
     GameBoard = [
+        [0, new BaseCube(2, 1, duoRandom(2,4)), 0, 0, 0],
         [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, new BaseCube(5, 3, duoRandom(2,4))],
+        [0, 0, 0, 0, new BaseCube(5, 4, duoRandom(2,4))],
         [0, 0, 0, 0, 0],
     ];
-
     app = document.querySelector('#app');
 
+    createFirstCube() {
+        const x = random(1, 5)
+        const y = random(1, 5)
+        this.GameBoard[x-1][y-1] = new BaseCube(x, y, duoRandom(2,4));
+        this.GameBoard[x-1][y-1].render()
+    }
+
     render () {
+        const style = document.createElement('style')
+        let classes = ''
+
         for (let x = 0; x < this.GameBoard.length; x++) {
             for(let y = 0; y < this.GameBoard[x].length; y++) {
-                // @todo GeneratorClasses
-                this.GameBoard[x][y] = new BaseCube(x+1, y+1);
+                classes += `.cube-${x+1}-${y+1}{grid-area: ${y+1}/${x+1}; transition: all 0.5s ease-out;}`
+                if ((this.GameBoard[x][y] instanceof BaseCube)) {
+                    this.GameBoard[x][y].render()
+                }
             }
         }
 
-        this.GameBoard[random(0, 4)][random(0, 4)].score = duoRandom(2,4) ;
+        style.innerHTML = classes
+        document.querySelector('head').append(style)
+
+        // this.createFirstCube();
+        this.swipe()
     }
 
     swipe() {
@@ -39,8 +54,8 @@ export class Game {
     
             const calcX = touch.x - touchMove.x;
             const calcY = touch.y - touchMove.y;
-    
             this.calculateChangeOfPosition(calcX, calcY);
+
         })
     }
     
@@ -48,35 +63,54 @@ export class Game {
         if (Math.abs(calcX) > Math.abs(calcY)) {
             // r-l
             if (calcX > 0) {
-                this.transformPosition('r');
+                this.transformPosition('left');
             } else {
-                this.transformPosition('l');
+                this.transformPosition('right');
             }
-        } else {
+        } else if (Math.abs(calcY) > Math.abs(calcX)) {
             // t-b
             if(calcY > 0) {
-                this.transformPosition('t');
+                this.transformPosition('top');
             } else {
-                this.transformPosition('b');
+                this.transformPosition('bottom');
             }
         }
     }
     
     transformPosition(side) {
         switch (side) {
-            case 't':
-                
+            case 'top':
+                this.helpTransform(false, false)
                 break;
             
-            case 'b':
+            case 'bottom':
                 break
             
-            case 'r':
+            case 'right':
     
                 break;
-            default:
+            case 'left':
 
                 break;
+        }
+    }
+
+    helpTransform(isLeftRight,isMinus) {
+        for (let y = 0; y < this.GameBoard.length; y++) {
+            let coords = []
+            for (let x = 0; x < this.GameBoard[y].length; x++) {
+                if (!(this.GameBoard[x][y] instanceof BaseCube)) {
+                    coords.push(x);
+                    continue
+                } else if (this.GameBoard[x][y].coords.y !== 1) {
+                    const newCubePos = this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0])+1]
+                    this.GameBoard[x][y] = 0
+                    this.GameBoard[x][(coords[0])] = newCubePos
+
+                    coords.splice(0, 1, y);
+                    coords.sort((a, b) => { return a-b })
+                }
+            }
         }
     }
 }
