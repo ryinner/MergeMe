@@ -109,7 +109,7 @@ export class Game {
     }
 
     helpTransform(isLeftRight, isMinus) {
-        console.log(this.GameBoard);
+        let movement = 0;
         if (isLeftRight === false && isMinus === false) {
             for (let y = 0; y < this.GameBoard.length; y++) {
                 let coords = []
@@ -127,7 +127,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, x);
-
+                        movement++
                     }
                 }
             }
@@ -147,6 +147,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, x);
+                        movement++
                     }
                 }
             }
@@ -166,6 +167,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, y);
+                        movement++
                     }
                 }
             }
@@ -185,9 +187,14 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, y);
+                        movement++
                     }
                 }
             }
+        }
+
+        if (movement > 0) {
+            this.newCube(1)
         }
     }
 }
