@@ -169,7 +169,14 @@ export class Game {
                             this.GameBoard[x][y] = 0
     
                             coords.splice(0, 1, y);
+
+                            this.tryMerge(newCubePos, code)
                             movement++;
+                        } else {
+                            if (this.tryMerge(this.GameBoard[x][y], code)) {
+                                coords.push(y);
+                                movement++;
+                            }
                         }
                     }
                 }
@@ -191,10 +198,10 @@ export class Game {
     
                             coords.splice(0, 1, y);
     
-                            this.tryMerge(newCubePos)
+                            this.tryMerge(newCubePos, code)
                             movement++;
                         } else {
-                            if (this.tryMerge(this.GameBoard[x][y])) {
+                            if (this.tryMerge(this.GameBoard[x][y], code)) {
                                 coords.push(y);
                                 movement++;
                             }
@@ -209,23 +216,55 @@ export class Game {
         }
     }
 
-    tryMerge(cubePos) {
-        let start = (cubePos.coords.x)-1
-        while (start > 0) {
-            if ( start > 0) {
-                let xMergePosition = cubePos.coords.x-2;
-                let yMergePosition = cubePos.coords.y-1;
-    
-                if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
-                    if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
-                        this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
-                        this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
-                        return true;
-                    }
+    tryMerge(cubePos, code) {
+        let start;
+
+        switch (code) {
+            case 'top':
+                
+                break;
+            
+            case 'bottom':
+            
+                break;
+
+            case 'left':
+                start = (cubePos.coords.x)-1;
+                while (start > 0) {
+                        let xMergePosition = cubePos.coords.x-2;
+                        let yMergePosition = cubePos.coords.y-1;
+            
+                        if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
+                            if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
+                                this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
+                                this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                return true;
+                            }
+                        }
+                    start--;
                 }
-            }
-            start--;
+                break;
+
+            case 'right':
+                start = (cubePos.coords.x)-1;
+                while (start < this.GameBoard.length) {
+                        let xMergePosition = cubePos.coords.x;
+                        let yMergePosition = cubePos.coords.y-1;
+            
+                        if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
+                            if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
+                                this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
+                                this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                return true;
+                            }
+                        }
+                    start++;
+                }
+                break;
         }
+
+        
+
     }
 
     destroyCube(x, y) {
