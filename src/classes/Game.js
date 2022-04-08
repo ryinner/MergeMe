@@ -2,19 +2,26 @@ import { BaseCube } from "./BaseCube.js";
 import { random, duoRandom, sort } from "../helpers/baseHelper.js";
 export class Game {
     GameBoard = [
-        [0, new BaseCube(2, 1, duoRandom(2, 4)), 0, 0, new BaseCube(5, 1, duoRandom(2, 4))],
         [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, new BaseCube(5, 3, duoRandom(2, 4))],
-        [0, 0, 0, 0, new BaseCube(5, 4, duoRandom(2, 4))],
-        [0, 0, 0, 0, new BaseCube(5, 5, duoRandom(2, 4))],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0],
     ];
     app = document.querySelector('#app');
 
-    createFirstCube() {
-        const x = random(1, 5)
-        const y = random(1, 5)
-        this.GameBoard[x - 1][y - 1] = new BaseCube(x, y, duoRandom(2, 4));
-        this.GameBoard[x - 1][y - 1].render()
+    newCube(count) {
+        let i = 0;
+        while (i < count) {
+            const x = random(1, 5)
+            const y = random(1, 5)
+
+            if (this.GameBoard[y-1][x-1] == 0) {
+                this.GameBoard[y-1][x-1] = new BaseCube(x, y, duoRandom(2, 4));
+                this.GameBoard[y-1][x-1].render()
+                i++
+            }
+        }
     }
 
     render() {
@@ -33,7 +40,7 @@ export class Game {
         style.innerHTML = classes
         document.querySelector('head').append(style)
 
-        // this.createFirstCube();
+        this.newCube(2)
         this.swipe()
     }
 
