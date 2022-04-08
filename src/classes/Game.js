@@ -2,7 +2,7 @@ import { BaseCube } from "./BaseCube.js";
 import { random, duoRandom, sort } from "../helpers/baseHelper.js";
 export class Game {
     GameBoard = [
-        [0, new BaseCube(2, 1, duoRandom(2,4)), 0, 0, 0],
+        [0, new BaseCube(2, 1, duoRandom(2,4)), 0, 0, new BaseCube(5, 1, duoRandom(2,4))],
         [0, 0, 0, 0, 0],
         [0, 0, 0, 0, new BaseCube(5, 3, duoRandom(2,4))],
         [0, 0, 0, 0, new BaseCube(5, 4, duoRandom(2,4))],
@@ -109,18 +109,18 @@ export class Game {
                 for (let x = 0; x < this.GameBoard[y].length; x++) {
                     if (!(this.GameBoard[x][y] instanceof BaseCube)) {
                         coords.push(x);
-                    } else if (this.GameBoard[x][y].coords.y !== 1) {
+                    } else if (coords.length !== 0) {
                         sort(coords, isMinus)
                         
-                        if (this.GameBoard[x][y].coords.x !== coords[0]+1) {
+                        // if (this.GameBoard[x][y].coords.x !== coords[0]+1) {
                             this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0])+1]
                             const newCubePos = this.GameBoard[x][y]
 
+                            this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x-1] = newCubePos
                             this.GameBoard[x][y] = 0
-                            this.GameBoard[x][(coords[0])] = newCubePos
-                
+
                             coords.splice(0, 1, x);
-                        }
+                        // }
                     }
                 }
             }
@@ -130,13 +130,16 @@ export class Game {
                 for (let x = this.GameBoard[y].length-1; x >= 0; x--) {
                     if (!(this.GameBoard[x][y] instanceof BaseCube)) {
                         coords.push(x);
-                    } else if (this.GameBoard[x][y].coords.y !== 5) {
+                    } else if (coords.length !== 0) {
                         sort(coords, isMinus)
 
-                        this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0])+1]
-                        const newCubePos = this.GameBoard[x][y]
-                        this.GameBoard[x][y] = 0
-                        this.GameBoard[x][(coords[0])] = newCubePos
+
+                            this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0])+1]
+                            const newCubePos = this.GameBoard[x][y]
+
+                            this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x-1] = newCubePos
+                            this.GameBoard[x][y] = 0
+
             
                         coords.splice(0, 1, x);
                     }
@@ -148,15 +151,15 @@ export class Game {
                 for (let y = 0; y < this.GameBoard[x].length; y++) {
                     if (!(this.GameBoard[x][y] instanceof BaseCube)) {
                         coords.push(y);
-                    } else if (this.GameBoard[x][y].coords.x !== 1) {
+                    } else if (coords.length !== 0) {
                         sort(coords, isMinus)
 
-                        this.GameBoard[x][y].coords = [(coords[0])+1, this.GameBoard[x][y].coords.y]
-                        const newCubePos = this.GameBoard[x][y]
-                        console.log(newCubePos);
-                        this.GameBoard[x][y] = 0
-                        this.GameBoard[x][(coords[0])] = newCubePos
-            
+                        this.GameBoard[x][y].coords = [coords[0]+1, this.GameBoard[x][y].coords.y]
+                            const newCubePos = this.GameBoard[x][y]
+
+                            this.GameBoard[this.GameBoard[x][y].coords.y-1][(coords[0])] = newCubePos
+                            this.GameBoard[x][y] = 0
+
                         coords.splice(0, 1, y);
                     }
                 }
