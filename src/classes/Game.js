@@ -236,10 +236,11 @@ export class Game {
         switch (code) {
             case 'top':
                 start = (cubePos.coords.y)-1;
+
                 while (start > 0) {
                         let xMergePosition = cubePos.coords.x-1;
                         let yMergePosition = cubePos.coords.y-2;
-            
+                        
                         if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
                             if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                 this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
@@ -254,10 +255,10 @@ export class Game {
             case 'bottom':
                 start = (cubePos.coords.y)-1;
                 while (start < this.GameBoard.length) {
-                    if (start > 0) {
+                    
                         let xMergePosition = cubePos.coords.x-1;
-                        let yMergePosition = cubePos.coords.y-2;
-                        console.log(this.GameBoard[yMergePosition][xMergePosition]);
+                        let yMergePosition = cubePos.coords.y;
+                        if (yMergePosition < this.GameBoard.length) {
                             if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
                                 if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                     this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
@@ -265,7 +266,7 @@ export class Game {
                                     return true;
                                 }
                             }
-                    }
+                        }
                     start++;
                 }
                 break;
