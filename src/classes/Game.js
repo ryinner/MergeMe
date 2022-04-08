@@ -90,117 +90,118 @@ export class Game {
     transformPosition(side) {
         switch (side) {
             case 'top':
-                console.log('top');
-                this.helpTransform(false, false)
+                this.helpTransform('top')
                 break;
 
             case 'bottom':
-                console.log('bottom');
-                this.helpTransform(false, true)
+                this.helpTransform('bottom')
                 break
 
             case 'right':
-                console.log('right');
-                this.helpTransform(true, true)
+                this.helpTransform('right')
                 break;
 
             case 'left':
-                console.log('left');
-                this.helpTransform(true, false)
+                this.helpTransform('left')
                 break;
         }
     }
 
-    helpTransform(isLeftRight, isMinus) {
+    helpTransform(code) {
         let movement = 0;
-        if (isLeftRight === false && isMinus === false) {
-            for (let y = 0; y < this.GameBoard.length; y++) {
-                let coords = []
-                for (let x = 0; x < this.GameBoard[y].length; x++) {
-                    if (!(this.GameBoard[x][y] instanceof BaseCube)) {
-                        coords.push(x);
-                    } else if (coords.length !== 0) {
-                        sort(coords, isMinus)
-
-
-                        this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0]) + 1]
-                        const newCubePos = this.GameBoard[x][y]
-
-                        this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x - 1] = newCubePos
-                        this.GameBoard[x][y] = 0
-
-                        coords.splice(0, 1, x);
-                        movement++;
-                    }
-                }
-            }
-        } else if (isLeftRight === false && isMinus === true) {
-            for (let y = this.GameBoard.length - 1; y >= 0; y--) {
-                let coords = []
-                for (let x = this.GameBoard[y].length - 1; x >= 0; x--) {
-                    if (!(this.GameBoard[x][y] instanceof BaseCube)) {
-                        coords.push(x);
-                    } else if (coords.length !== 0) {
-                        sort(coords, isMinus)
-
-                        this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0]) + 1]
-                        const newCubePos = this.GameBoard[x][y]
-
-                        this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x - 1] = newCubePos
-                        this.GameBoard[x][y] = 0
-
-                        coords.splice(0, 1, x);
-                        movement++;
-                    }
-                }
-            }
-        } else if (isLeftRight === true && isMinus === false) {
-            for (let x = 0; x < this.GameBoard.length; x++) {
-                let coords = []
-                for (let y = 0; y < this.GameBoard[x].length; y++) {
-                    if (!(this.GameBoard[x][y] instanceof BaseCube)) {
-                        coords.push(y);
-                    } else if (coords.length !== 0) {
-                        sort(coords, isMinus)
-
-                        this.GameBoard[x][y].coords = [coords[0] + 1, this.GameBoard[x][y].coords.y]
-                        const newCubePos = this.GameBoard[x][y]
-
-                        this.GameBoard[this.GameBoard[x][y].coords.y - 1][(coords[0])] = newCubePos
-                        this.GameBoard[x][y] = 0
-
-                        coords.splice(0, 1, y);
-
-                        this.tryMerge(newCubePos)
-                        movement++;
-                    } else {
-                        if (this.tryMerge(this.GameBoard[x][y])) {
-                            coords.push(y);
+        switch (code) {
+            case 'top':
+                for (let y = 0; y < this.GameBoard.length; y++) {
+                    let coords = []
+                    for (let x = 0; x < this.GameBoard[y].length; x++) {
+                        if (!(this.GameBoard[x][y] instanceof BaseCube)) {
+                            coords.push(x);
+                        } else if (coords.length !== 0) {
+                            sort(coords, false)
+    
+    
+                            this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0]) + 1]
+                            const newCubePos = this.GameBoard[x][y]
+    
+                            this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x - 1] = newCubePos
+                            this.GameBoard[x][y] = 0
+    
+                            coords.splice(0, 1, x);
                             movement++;
                         }
                     }
                 }
-            }
-        } else if (isLeftRight === true && isMinus === true) {
-            for (let x = this.GameBoard.length-1; x >= 0; x--) {
-                let coords = []
-                for (let y = this.GameBoard.length-1; y >= 0; y--) {
-                    if (!(this.GameBoard[x][y] instanceof BaseCube)) {
-                        coords.push(y);
-                    } else if (coords.length !== 0) {
-                        sort(coords, isMinus)
+                break;
+            case 'bottom': 
+                for (let y = this.GameBoard.length - 1; y >= 0; y--) {
+                    let coords = []
+                    for (let x = this.GameBoard[y].length - 1; x >= 0; x--) {
+                        if (!(this.GameBoard[x][y] instanceof BaseCube)) {
+                            coords.push(x);
+                        } else if (coords.length !== 0) {
+                            sort(coords, true)
 
-                        this.GameBoard[x][y].coords = [coords[0] + 1, this.GameBoard[x][y].coords.y]
-                        const newCubePos = this.GameBoard[x][y]
+                            this.GameBoard[x][y].coords = [this.GameBoard[x][y].coords.x, (coords[0]) + 1]
+                            const newCubePos = this.GameBoard[x][y]
 
-                        this.GameBoard[this.GameBoard[x][y].coords.y - 1][(coords[0])] = newCubePos
-                        this.GameBoard[x][y] = 0
+                            this.GameBoard[(coords[0])][this.GameBoard[x][y].coords.x - 1] = newCubePos
+                            this.GameBoard[x][y] = 0
 
-                        coords.splice(0, 1, y);
-                        movement++;
+                            coords.splice(0, 1, x);
+                            movement++;
+                        }
                     }
                 }
-            }
+                break;
+            case 'right':
+                for (let x = this.GameBoard.length-1; x >= 0; x--) {
+                    let coords = []
+                    for (let y = this.GameBoard.length-1; y >= 0; y--) {
+                        if (!(this.GameBoard[x][y] instanceof BaseCube)) {
+                            coords.push(y);
+                        } else if (coords.length !== 0) {
+                            sort(coords, true)
+    
+                            this.GameBoard[x][y].coords = [coords[0] + 1, this.GameBoard[x][y].coords.y]
+                            const newCubePos = this.GameBoard[x][y]
+    
+                            this.GameBoard[this.GameBoard[x][y].coords.y - 1][(coords[0])] = newCubePos
+                            this.GameBoard[x][y] = 0
+    
+                            coords.splice(0, 1, y);
+                            movement++;
+                        }
+                    }
+                }
+                break;
+            case 'left':
+                for (let x = 0; x < this.GameBoard.length; x++) {
+                    let coords = []
+                    for (let y = 0; y < this.GameBoard[x].length; y++) {
+                        if (!(this.GameBoard[x][y] instanceof BaseCube)) {
+                            coords.push(y);
+                        } else if (coords.length !== 0) {
+                            sort(coords, false)
+    
+                            this.GameBoard[x][y].coords = [coords[0] + 1, this.GameBoard[x][y].coords.y]
+                            const newCubePos = this.GameBoard[x][y]
+    
+                            this.GameBoard[this.GameBoard[x][y].coords.y - 1][(coords[0])] = newCubePos
+                            this.GameBoard[x][y] = 0
+    
+                            coords.splice(0, 1, y);
+    
+                            this.tryMerge(newCubePos)
+                            movement++;
+                        } else {
+                            if (this.tryMerge(this.GameBoard[x][y])) {
+                                coords.push(y);
+                                movement++;
+                            }
+                        }
+                    }
+                }
+                break;
         }
 
         if (movement > 0) {
