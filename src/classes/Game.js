@@ -1,13 +1,8 @@
 import { BaseCube } from "./BaseCube.js";
 import { random, duoRandom, sort } from "../helpers/baseHelper.js";
 export class Game {
-    GameBoard = [
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0],
-    ];
+    GameBoard;
+
     app = document.querySelector('#app');
 
     newCube(count) {
@@ -25,14 +20,22 @@ export class Game {
     }
 
     render() {
-        const style = document.createElement('style')
-        let classes = ''
+        const style = document.createElement('style');
+        let classes = '';
+
+        this.GameBoard = [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+        ];
 
         for (let x = 0; x < this.GameBoard.length; x++) {
             for (let y = 0; y < this.GameBoard[x].length; y++) {
-                classes += `.cube-${x + 1}-${y + 1}{grid-area: ${y + 1}/${x + 1}; transition: all 0.5s ease-out;}`
+                classes += `.cube-${x + 1}-${y + 1}{grid-area: ${y + 1}/${x + 1}; transition: all 0.5s ease-out;}`;
                 if ((this.GameBoard[x][y] instanceof BaseCube)) {
-                    this.GameBoard[x][y].render()
+                    this.GameBoard[x][y].render();
                 }
             }
         }
@@ -127,7 +130,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, x);
-                        movement++
+                        movement++;
                     }
                 }
             }
@@ -147,7 +150,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, x);
-                        movement++
+                        movement++;
                     }
                 }
             }
@@ -167,7 +170,14 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, y);
-                        movement++
+
+                        this.tryMerge(newCubePos)
+                        movement++;
+                    } else {
+                        if (this.tryMerge(this.GameBoard[x][y])) {
+                            coords.push(y);
+                            movement++;
+                        }
                     }
                 }
             }
@@ -187,7 +197,7 @@ export class Game {
                         this.GameBoard[x][y] = 0
 
                         coords.splice(0, 1, y);
-                        movement++
+                        movement++;
                     }
                 }
             }
@@ -196,5 +206,29 @@ export class Game {
         if (movement > 0) {
             this.newCube(1)
         }
+    }
+
+    tryMerge(cubePos) {
+        let start = (cubePos.coords.x)-1
+        while (start > 0) {
+            if ( start > 0) {
+                let xMergePosition = cubePos.coords.x-2;
+                let yMergePosition = cubePos.coords.y-1;
+    
+                if (this.GameBoard[yMergePosition][xMergePosition] instanceof BaseCube) {
+                    if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
+                        this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
+                        this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                        return true;
+                    }
+                }
+            }
+            start--;
+        }
+    }
+
+    destroyCube(x, y) {
+        this.GameBoard[x][y].destroy();
+        this.GameBoard[x][y] = 0;
     }
 }

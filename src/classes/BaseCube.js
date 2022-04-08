@@ -31,6 +31,10 @@ export class BaseCube {
         return colors[this.value];
     }
 
+    destroy() {
+        this.cube.remove();
+    }
+
     set score(value) {
         this.value = value;
         this.changeCube();

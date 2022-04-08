@@ -3,5 +3,3 @@ import { Game } from "./classes/Game.js";
 const game = new Game;
 
 game.render();
-
-console.log(game.GameBoard);
