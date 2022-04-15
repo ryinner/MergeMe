@@ -25,7 +25,13 @@ export class BaseCube {
         const colors = {
             2: '#fafafa',
             4: '#faf',
-            8: '#fdf'
+            8: '#fdf',
+            16: '#A648A6',
+            32: '#7149A6',
+            64: '#FFE6ED',
+            128: '#F1FFE6',
+            256: '#72A648',
+            512: '#FCFFEC'
         };
 
         return colors[this.value];

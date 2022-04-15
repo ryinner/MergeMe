@@ -19,6 +19,11 @@ export class Game {
         }
     }
 
+    init() {
+        this.render();
+        this.swipe();
+    }
+
     render() {
         const style = document.createElement('style');
         let classes = '';
@@ -30,6 +35,8 @@ export class Game {
             [0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0],
         ];
+
+        app.innerHTML = ''
 
         for (let x = 0; x < this.GameBoard.length; x++) {
             for (let y = 0; y < this.GameBoard[x].length; y++) {
@@ -44,7 +51,6 @@ export class Game {
         document.querySelector('head').append(style)
 
         this.newCube(1)
-        this.swipe()
     }
 
     swipe() {

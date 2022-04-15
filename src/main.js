@@ -2,4 +2,8 @@ import { Game } from "./classes/Game.js";
 
 const game = new Game;
 
-game.render();
+game.init();
+
+document.querySelector('#newGame').addEventListener('click', () => {
+    game.render();
+})
