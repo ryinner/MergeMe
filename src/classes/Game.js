@@ -67,6 +67,25 @@ export class Game {
             this.calculateChangeOfPosition(calcX, calcY);
 
         })
+
+        app.addEventListener('touchstart', (event) => {
+            touch = {
+                x: event.changedTouches[0].clientX,
+                y: event.changedTouches[0].clientY,
+            };
+        });
+
+        app.addEventListener('touchend', (event) => {
+            let touchMove = {
+                x: event.changedTouches[0].clientX,
+                y: event.changedTouches[0].clientY,
+            };
+
+            const calcX = touch.x - touchMove.x;
+            const calcY = touch.y - touchMove.y;
+            this.calculateChangeOfPosition(calcX, calcY);
+
+        })
     }
 
     calculateChangeOfPosition(calcX, calcY) {
