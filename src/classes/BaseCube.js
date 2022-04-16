@@ -31,7 +31,9 @@ export class BaseCube {
             64: '#FFE6ED',
             128: '#F1FFE6',
             256: '#72A648',
-            512: '#FCFFEC'
+            512: '#A69D4D',
+            1024: '#A64D69',
+            2048: '#EDE0FF'
         };
 
         return colors[this.value];

@@ -15,21 +15,6 @@
     --max-cubes-rows: 5;
 }
 
-@media screen and (max-width: 1000) {
-    :root {
-    --cube-width: 64px;
-    --cube-heigth: 64px;
-    }
-
-    #app {
-        max-width: 375px;
-    }
-
-    .cube {
-        font-size: 22px;
-    }
-}
-
 body, #app {
     display: grid;
 }
@@ -48,9 +33,29 @@ h1 {
     border-bottom: 1px solid var(--second-text-color);
 }
 
+h2 {
+    margin-top: 6px;
+    font-size: 48px;
+    text-align: center;
+    color: var(--second-text-color);
+}
+
 @media screen and (max-width: 800px)  {
     h1 {
         font-size: 48px;
+    }
+
+    :root {
+        --cube-width: 64px;
+        --cube-heigth: 64px;
+        }
+    
+    #app {
+        max-width: 375px;
+    }
+    
+    .cube {
+        font-size: 22px;
     }
 }
 

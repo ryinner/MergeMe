@@ -5,6 +5,8 @@ export class Game {
 
     app = document.querySelector('#app');
 
+    baseScore = 0;
+    
     newCube(count) {
         let i = 0;
         while (i < count) {
@@ -19,14 +21,19 @@ export class Game {
         }
     }
 
+    updateScore() {
+        const scoreDiv = document.getElementById('score');
+        scoreDiv.innerHTML = this.baseScore;
+    }
+
     init() {
         this.render();
+        this.createClasses();
         this.swipe();
     }
 
     render() {
-        const style = document.createElement('style');
-        let classes = '';
+        this.baseScore = 0;
 
         this.GameBoard = [
             [0, 0, 0, 0, 0],
@@ -36,21 +43,23 @@ export class Game {
             [0, 0, 0, 0, 0],
         ];
 
-        app.innerHTML = ''
+        app.innerHTML = '';
+        this.updateScore();
+        this.newCube(2);
+    }
+
+    createClasses() {
+        const style = document.createElement('style');
+        let classes = '';
 
         for (let x = 0; x < this.GameBoard.length; x++) {
             for (let y = 0; y < this.GameBoard[x].length; y++) {
                 classes += `.cube-${x + 1}-${y + 1}{grid-area: ${y + 1}/${x + 1}; transition: all 0.5s ease-out;}`;
-                if ((this.GameBoard[x][y] instanceof BaseCube)) {
-                    this.GameBoard[x][y].render();
-                }
             }
         }
 
         style.innerHTML = classes
         document.querySelector('head').append(style)
-
-        this.newCube(1)
     }
 
     swipe() {
@@ -270,6 +279,8 @@ export class Game {
                             if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                 this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
                                 this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                this.baseScore += this.GameBoard[yMergePosition][xMergePosition].score
+                                this.updateScore();
                                 return true;
                             }
                         }
@@ -288,6 +299,8 @@ export class Game {
                                 if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                     this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
                                     this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                    this.baseScore += this.GameBoard[yMergePosition][xMergePosition].score
+                                    this.updateScore();
                                     return true;
                                 }
                             }
@@ -306,6 +319,8 @@ export class Game {
                             if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                 this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
                                 this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                this.baseScore += this.GameBoard[yMergePosition][xMergePosition].score
+                                this.updateScore();
                                 return true;
                             }
                         }
@@ -324,6 +339,8 @@ export class Game {
                                 if (this.GameBoard[yMergePosition][xMergePosition].score == cubePos.score) {
                                     this.GameBoard[yMergePosition][xMergePosition].score += cubePos.score;
                                     this.destroyCube(cubePos.coords.y-1, cubePos.coords.x-1)
+                                    this.baseScore += this.GameBoard[yMergePosition][xMergePosition].score
+                                    this.updateScore();
                                     return true;
                                 }
                             }
